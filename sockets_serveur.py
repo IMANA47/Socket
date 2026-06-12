@@ -11,8 +11,16 @@ HOST_IP = "127.0.0.1"
 HOST_PORT = 32000
 
 serveur = socket.socket()
+serveur.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 serveur.bind((HOST_IP, HOST_PORT))
 serveur.listen()
+
 print(f"Serveur en attente de connexion sur le port {HOST_PORT}, port {HOST_PORT}...")
 connexion_socket, adresse_client = serveur.accept()
 print(f"Connexion établie avec {adresse_client}")
+
+texte_envoyer = "Bienvenue sur le serveur !"
+connexion_socket.send(texte_envoyer.encode())
+
+serveur.close()
+connexion_socket.close()
