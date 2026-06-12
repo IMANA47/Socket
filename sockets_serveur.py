@@ -1,26 +1,31 @@
-# SOCKETS RESEAU : SERVEUR
-
+# SOCKETS RÉSEAU : SERVEUR
+#
 # socket
-# bind (ip, port) 127.0.0.1 -> localhost
-# listen
-# accept -> socket / (ip, port)
-# close
+#   bind (ip, port)  127.0.0.1 -> localhost
+#   listen
+#   accept -> socket / (ip, port)
+#   close
+
+# already used
 
 import socket
+
 HOST_IP = "127.0.0.1"
 HOST_PORT = 32000
 
-serveur = socket.socket()
-serveur.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-serveur.bind((HOST_IP, HOST_PORT))
-serveur.listen()
+s = socket.socket()
+s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+s.bind((HOST_IP, HOST_PORT))
+s.listen()
 
-print(f"Serveur en attente de connexion sur le port {HOST_PORT}, port {HOST_PORT}...")
-connexion_socket, adresse_client = serveur.accept()
-print(f"Connexion établie avec {adresse_client}")
+print(f"Attente de connexion sur {HOST_IP}, port {HOST_PORT}...")
+connection_socket, client_address = s.accept()
+print(f"Connexion établie avec {client_address}")
 
-texte_envoyer = "Bienvenue sur le serveur !"
-connexion_socket.send(texte_envoyer.encode())
 
-serveur.close()
-connexion_socket.close()
+texte_envoye = "Bonjour"
+connection_socket.sendall(texte_envoye.encode())
+
+
+s.close()
+connection_socket.close()

@@ -1,23 +1,30 @@
+
 import socket
 import time
-HOST_IP = "127.0.0.1"   
+
+HOST_IP = "127.0.0.1"
 HOST_PORT = 32000
 MAX_DATA_SIZE = 1024
-client = socket.socket()
 
+print(f"Connexion au serveur {HOST_IP}, port {HOST_PORT}")
 while True:
     try:
-        client.connect((HOST_IP, HOST_PORT))
+        s = socket.socket()
+        s.connect((HOST_IP, HOST_PORT))
     except ConnectionRefusedError:
-        print("Connexion au serveur impossible.")
+        print("ERREUR : impossible de se connecter au serveur. Reconnexion...")
         time.sleep(4)
     else:
-        print("Connexion établie avec le serveur.")
+        print("Connecté au serveur")
         break
 
-data_recu = client.recv(MAX_DATA_SIZE)
-if not data_recu:
-    print("Aucun message reçu du serveur.")
+# ....
+data_recues = s.recv(MAX_DATA_SIZE)
+if data_recues:
+    print(data_recues.decode())
 else:
-    print(f"Message reçu du serveur : {data_recu.decode()}")
-client.close()
+    print("Aucune data")
+
+s.close()
+
+print("Fermeture de la connexion")
